@@ -19,11 +19,11 @@ sudo apt-get install git -y
 #sudo apt-get install maven -y
 
 # Install node.js (also remove the "Amateur Packet Radio Node Program" conflicting package)
-#echo "************************  install node.js  ************************"
-#sudo apt-get --purge remove node  -y
-#sudo apt-get install nodejs -y
-#sudo ln -s /usr/bin/nodejs /usr/bin/node
-#sudo apt-get install npm -y
+echo "************************  install node.js  ************************"
+sudo apt-get --purge remove node  -y
+sudo apt-get install nodejs -y
+sudo ln -s /usr/bin/nodejs /usr/bin/node
+sudo apt-get install npm -y
 
 # Install Docker
 echo "************************  install docker  ************************"
