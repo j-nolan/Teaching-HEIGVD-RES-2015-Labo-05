@@ -30,4 +30,14 @@ echo "************************  install docker  ************************"
 wget -qO- https://get.docker.com/ | sh
 sudo usermod -aG docker vagrant
 
-# Custom installation starts here...
+# Build frontend image
+echo "***********************  Build Frontend  ************************"
+sudo docker build -t php-frontend -f /vagrant/docker/image_frontend/Dockerfile /vagrant/docker/image_frontend/
+
+# Build backend image
+echo "***********************  Build Backend  *************************"
+sudo docker build -t express-backend -f /vagrant/docker/image_backend/Dockerfile /vagrant/docker/image_backend/
+
+# Launch the Docker UI
+echo "***********************  Launch Docker UI  ***********************"
+sudo docker run -d -p 9000:9000 --privileged -v /var/run/docker.sock:/var/run/docker.sock dockerui/dockerui
