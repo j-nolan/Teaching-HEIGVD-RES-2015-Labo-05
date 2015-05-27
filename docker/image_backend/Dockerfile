@@ -27,4 +27,5 @@ RUN npm install
 # With CMD, we start the PM2 process manager. The process manager is responsible
 # for starting the node.js script (the express.js app)
 #
-CMD pm2 start -x /opt/res/bin/www --no-daemon
+
+CMD /opt/res/startContainer.sh
