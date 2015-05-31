@@ -38,6 +38,10 @@ sudo docker build -t php-frontend -f /vagrant/docker/image_frontend/Dockerfile /
 echo "***********************  Build Backend  *************************"
 sudo docker build -t express-backend -f /vagrant/docker/image_backend/Dockerfile /vagrant/docker/image_backend/
 
+# Build load balancer image
+echo "***********************  Build Load Balancer**********************"
+sudo docker build -t loadbalancer-proxy -f /vagrant/ApacheServer/Dockerfile /vagrant/ApacheServer/
+
 # Launch the Docker UI
 echo "***********************  Launch Docker UI  ***********************"
 sudo docker run -d -p 9000:9000 --privileged -v /var/run/docker.sock:/var/run/docker.sock dockerui/dockerui

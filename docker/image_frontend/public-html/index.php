@@ -7,7 +7,7 @@
     <head>
         <title>Suggestion de repas</title>
         <!-- jQuery -->
-        <script type="text/javascript" src="jquery-1.11.3.min.js"></script>
+        <script type="text/javascript" src="http://code.jquery.com/jquery-1.11.3.min.js"></script>
         
         <!-- Latest compiled and minified CSS -->
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
@@ -24,7 +24,7 @@
                 $('#bouton').click(function () {
                 
                     // Récupérer une liste de repas via AJAX
-                    $.get("./api/nourriture", function (data) {
+                    $.get("/api/nourriture", function (data) {
                         
                         // Lorsque la liste est récupérée, on la parcourt et on remplit le tableau HTML avec ces données
                         for (var i = 0; i < data.repas.length; ++i) {

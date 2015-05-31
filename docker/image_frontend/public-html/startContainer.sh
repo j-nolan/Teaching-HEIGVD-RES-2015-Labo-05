@@ -1,1 +1,1 @@
-node heartbeat.js &
+#node heartbeat.js &
