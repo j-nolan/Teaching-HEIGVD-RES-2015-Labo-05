@@ -100,6 +100,8 @@ Dans notre phase de test, nous avons établit une connexion à l'aide de deux na
 Nous avons ensuite réactualisé la page plusieurs fois afin de nous assurer que l'id du serveur frontend ne changeait pas. Comportement qui a été constaté. 
 
 Notre implémentation semble donc correcte et fonctionnelle.
+
+ ![Test avec navigateur chrome](https://github.com/j-nolan/Teaching-HEIGVD-RES-2015-Labo-05/blob/master/RES-Chrome.png)
  
 
 
