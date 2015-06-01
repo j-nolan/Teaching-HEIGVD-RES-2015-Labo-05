@@ -105,7 +105,8 @@ Notre implémentation semble donc correcte et fonctionnelle.
 Voici la manipulation effectuée pour avoir notre projet fonctionnel :
 
 1. Lancer la provision de la machine à l'aide de la commande `vagrant up`
-2. Redémarrer la machine pour que tous les containers de base se lancent à l'aide de la commande `vagrant reload` 
+2. Redémarrer la machine pour que tous les containers de base se lancent à l'aide de la commande `vagrant reload`
+3. (Optionnel) ajouter autant de containers "php-frontend" et "express-backend" que désiré pour vérifier le bon fonctionnement du Reverse Proxy depuis Docker UI
 
  ![Test avec navigateur chrome](https://github.com/j-nolan/Teaching-HEIGVD-RES-2015-Labo-05/blob/master/RES-Chrome.png)
  ![Test avec navigateur Firefox](https://github.com/j-nolan/Teaching-HEIGVD-RES-2015-Labo-05/blob/master/RES-Firefox.png) 
