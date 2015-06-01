@@ -1,5 +1,6 @@
 var express = require('express');
 var router = express.Router();
+var os = require('os');
 
 /* GET nourriture. */
 router.get('/', function(req, res, next) {
@@ -25,7 +26,8 @@ router.get('/', function(req, res, next) {
             "nourriture" : repas[2],
             "boisson" : boissons[2]
         }
-      ]
+      ],
+     "backend_id" : os.hostname()
   }
   res.send(payload);
 });

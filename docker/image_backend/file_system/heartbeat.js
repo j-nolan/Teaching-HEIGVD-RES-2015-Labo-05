@@ -7,7 +7,7 @@ s.bind(0, '', function() {
     s.setBroadcast(true);   
 });
 
-var payload = "BACKEND";
+var payload = "backend";
 message = new Buffer(payload);  
 
 setInterval(function () {
