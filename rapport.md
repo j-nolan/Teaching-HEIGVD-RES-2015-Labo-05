@@ -101,6 +101,12 @@ Nous avons ensuite réactualisé la page plusieurs fois afin de nous assurer que
 
 Notre implémentation semble donc correcte et fonctionnelle.
 
+**Précisions :**
+Voici la manipulation effectuée pour avoir notre projet fonctionnel :
+
+1. Lancer la provision de la machine à l'aide de la commande `vagrant up`
+2. Redémarrer la machine pour que tous les containers de base se lancent à l'aide de la commande `vagrant reload` 
+
  ![Test avec navigateur chrome](https://github.com/j-nolan/Teaching-HEIGVD-RES-2015-Labo-05/blob/master/RES-Chrome.png)
  
 
