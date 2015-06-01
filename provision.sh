@@ -34,7 +34,7 @@ sudo docker build -t express-backend -f /vagrant/docker/image_backend/Dockerfile
 
 # Build load balancer image
 echo "***********************  Build Load Balancer**********************"
-sudo docker build -t loadbalancer-proxy -f /vagrant/ApacheServer/Dockerfile /vagrant/ApacheServer/
+sudo docker build -t loadbalancer-proxy -f /vagrant/docker/image_apache_server/Dockerfile /vagrant/docker/image_apache_server/
 
 # Launch the Docker UI when machine starts
 echo "********************  Launch Dockers on start *****************"

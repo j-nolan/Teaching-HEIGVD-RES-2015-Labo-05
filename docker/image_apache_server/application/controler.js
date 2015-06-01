@@ -4,132 +4,126 @@
  * of time he does not answer any more
  * Autor: Michelle Meguep, David villa, James Nolan , Melanie Huck.
  */
+ 
+// Ecouter les messages de type broadcast sur le port 4411
+var PORT = 4411;
+var HOST = '255.255.255.255';
 
+// Variables réseau
 var dgram = require('dgram');
-var tableauFront = [];
-var tableauBack = [];
+var server = dgram.createSocket('udp4');
+var fs = require('fs');
+var os = require('os');
+var containersUpdated = false;
 
+// Variable contenant la liste des fronts et backs connus
+var containers = [];
 
-function misaAJourConf(){
-   var that=this;
-	misaAJourConf.prototype.maj=function(){
-      var i=0;
-      var filesystem=new ActiveXObject("Scripting.FileSystemObject");
-      
-      filesystem.CreateTextFile("/usr/local/apache2/conf/extra/httpd-vhosts.conf",true);
-      
-      var debut=fileSystem.OpenTextFile('/app/template/httpd-vhosts-debut.conf', 1 ,true);
-      var milieux=fileSystem.OpenTextFile('/app/template/httpd-vhosts-milieu.conf', 1 ,true);
-      var fin=fileSystem.OpenTextFile('/app/template/httpd-vhosts-fin.conf', 1 ,true);
-      
-      var configuration=fileSystem.OpenTextFile('httpd-vhosts.conf', 8 ,true);
-      
-      // construit le début du fichier de configuration
-      configuration.WriteLine(debut.ReadAll());
-      
-      // met les backend trouvé
-      for(i=1;i<=tableauBack.length;i++){
-         configuration.WriteLine("BalancerMember http://" + tableauBack[i-1]+":80/api/nourriture");
-      }
-      
-      configuration.WriteLine(milieux.ReadAll());
-      
-      // met les front end trouvé
-      for(i=1;i<=tableauFront.length;i++){
-         configuration.WriteLine("BalancerMember http://" + tableauBack[i-1]+":80 route=" + i);
-      }
-      
-      // met la fin du fichiers
-      configuration.WriteLine(fin.ReadAll());
-      
-      // il faut ici relancer le serveur proxy pour qu'il prenne en compte
-      // le nouveau fichier
-      var exec = require('child_process').exec, child;
-
-      child = exec("/usr/local/apache2/bin/apachectl restart",
-      function (error, stdout, stderr) {
-         console.log('stdout: ' + stdout);
-         console.log('stderr: ' + stderr);
-         if (error !== null) {
-            console.log('exec error: ' + error);
-         }
-      });
-      child();
-      // efface les tableaux en attend la prochaine mise à jour
-      tabFrontEnd=[];
-      tabBackEnd=[];
-	}
-}
-
-var newFrontend = {
-   url: 'http://127.0.0.1:3000',
-   timer: setTimeout(function(){
-       tableauFront.splice(tableauFront.indexOf(newFrontend),1);
-        misaAJourConf();
-   }, 2000)
-};
-var newFrontEnd = {
-    url:"sourceAdress",
-    timer:setTimeout(function(){
-       tableauFront.splice(tableauFront.indexOf(newFrontend),1);
-       misaAJourConf();
-   }, 2000)
-}
-tableauFront.push(newFrontend);
-
-var response = dgram.createSocket('udp4');
-
-// le contrôleur écoute sur le port en attente des messages des nodes
-response.on('message', function(msg, source) {
+// Ecouter les nouvelles entrées
+server.on('message', function (message, remote) {
+    fs.writeFile('controler.js.log', remote.address + ':' + remote.port +' - ' + message + os.EOL);
     
-   // structure qui definie pour chaque node frontEnd un timer afin de faire les mises à jour
-   var ruleFontEnd = null;
-   for(var i = 0; i < tableauFront.length; i++){
-      if(tableauFront[i].url == source.address){
-          ruleFontEnd = tableauFront[i];
-      } 
-   }
-   
-    // structure qui definie pour chaque node backEnd un timer afin de faire les mises à jour
-   var ruleBackEnd = null;
-   for(var i = 0; i < tableauBack.length; i++){
-      if(tableauBack[i].url == source.address){
-          ruleBackEnd = tableauBack[i];
-      } 
-   }
-   
-   if(ruleFontEnd == null && ruleBackEnd == null){
-   // vérifie si c'est un front end ou back end
-      if(msg == "frontend"){
-         var newFrontEnd = {
-            url:source.address,
-            timer:setTimeout(function(){
-                tableauFront.splice(tableauFront.indexOf(newFrontend),1);
-            }, 3000)
-         };
-         tableauFront.push(newFrontEnd);
-         misaAJourConf();
-      }
-      else if(msg == "backend") {
-          tableauBack.push(source.address);
-            misaAJourConf();
-      }
-   }
-   else{
-       if(msg == "frontend"){
-	console.log("Data has arrived: " + msg + ". Source IP: " + source.address + ". Source port: " + source.port);
-        clearTimeout(ruleFontEnd.timer);
-        ruleFontEnd.timer = setTimeout(function(){
-                tableauFront.splice(tableauFront.indexOf(ruleFontEnd),1);
-            }, 2000)
-       }  
-       else{
-           console.log("Data has arrived: " + msg + ". Source IP: " + source.address + ". Source port: " + source.port);
-        clearTimeout(ruleBackEnd.timer);
-        ruleBackEnd.timer = setTimeout(function(){
-                tableauFront.splice(tableauFront.indexOf(ruleBackEnd),1);
-            }, 2000)
-       }
-   }
+    // Si ce message nous est destiné
+    if (message == "frontend" || message == "backend") {
+        
+        // Si le container se trouve déjà dans la liste
+        var inList = false;
+        for (var i = 0; i < containers.length; ++i) {
+            if (containers[i].address == remote.address) {
+                // Flag indiquant qu'il est déjà dans la liste
+                inList = true;
+                
+                // Mettre à jour sa date de "vu pour la dernière fois..."
+                containers[i].lastSeen = new Date().getTime();
+                
+                // Sortir de la boucle
+                break;
+            }
+        }
+        
+        // Si le serveur ne se trouvait pas dans la liste
+        if (!inList) {
+            // L'ajouter et mettre à jour le loadbalancer
+            containers.push({address: remote.address, lastSeen: new Date().getTime(), type: message});
+            containersUpdated = true;
+        }  
+    } else {
+        // Ne rien faire, ce ne nous est pas destiné
+    }
 });
 
+// "Nettoyer" régulièrement la liste des containers en cherchant ceux qui n'ont pas été vus depuis plus de X secondes
+setInterval(function () {
+    // Quelle heure est-il maintenant ?
+    var now = new Date().getTime();
+    
+    // Nombre de containers dans la liste
+    var nbContainers = containers.length;
+    
+    // Parcourir la liste
+    for(var i = 0; i < containers.length; ++i) {
+        // Si le container n'a pas été vu depuis plus de 3000ms (3 secondes)
+        if (containers[i].lastSeen < now - 3000) {
+            // On le retire de la liste
+            containers.splice(i, 1);
+            containersUpdated = true;
+        }
+    }
+}, 1000);
+
+// Vérifier régulièrement si un nouveau container a été découvert ou que l'un d'eux à disparu. Si c'est le cas,
+// il faut mettre à jour le loadbalancer
+setInterval(function() {
+    
+    // Si rien n'a été mis à jour, ne rien toucher
+    if (!containersUpdated) {
+        return;
+    }
+    
+    // Sinon remettre à jour le loadbalancer
+    containersUpdated = false;
+    
+    // Lire la première partie du fichier
+    fs.readFile('/app/template/httpd-vhosts-debut.conf', 'utf8', function (err, dataDebut) {
+        // Saut de ligne
+        dataDebut += os.EOL;
+        
+        // Ecrire les lignes "frontend"
+        for (var i = 0, j = 0; i < containers.length; ++i) {
+            if (containers[i].type == 'frontend') {
+                dataDebut += 'BalancerMember "http://' + containers[i].address + ':80" route=' + j++ + os.EOL;
+            }
+        }
+        // Lire la deuxième partie du fichier
+        fs.readFile('/app/template/httpd-vhosts-milieu.conf', function (err, dataMilieu) {
+                // Ajouter cette partie au nouveau fichier
+                dataDebut += dataMilieu + os.EOL;
+                
+            // Ecrire les lignes "backend"
+            for (var i = 0; i < containers.length; ++i) {
+                if (containers[i].type == 'backend') {
+                    dataDebut += 'BalancerMember "http://' + containers[i].address + ':80/api/nourriture"' + os.EOL;
+                }
+            }
+            
+                
+            // Lire la dernière partie du fichier
+            fs.readFile('/app/template/httpd-vhosts-fin.conf', function (err, dataFin) {
+                dataDebut += dataFin + os.EOL;
+                fs.writeFile('controler.js.log', dataDebut);
+                
+                // Ecrire le résultat dans le fichier de configuration
+                fs.writeFile('/usr/local/apache2/conf/extra/httpd-vhosts.conf', dataDebut, function(err) {
+                    
+                    // Relancer Apache
+                    var sys = require('sys');
+                    var exec = require('child_process').exec;
+                    function puts(error, stdout, stderr) { sys.puts(stdout) };
+                    exec("/usr/local/apache2/bin/apachectl restart", puts);
+                });
+            });
+        });
+    });
+}, 500);
+
+server.bind(PORT, HOST);

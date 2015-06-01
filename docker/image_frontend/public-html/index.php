@@ -26,10 +26,9 @@
                     // Récupérer une liste de repas via AJAX
                     $.get("/api/nourriture", function (data) {
                         
-                        // Lorsque la liste est récupérée, on vide le tableau, on parcourt la liste et on remplit le tableau HTML avec ces données
-                        $('#repas tbody').html('');
+                        // Lorsque la liste est récupérée, on parcourt la liste et on remplit le tableau HTML avec ces données
                         for (var i = 0; i < data.repas.length; ++i) {
-                            $('#repas tbody').append('<tr><td>' + i + '</td><td>' + data.repas[i].boisson + '</td><td>' + data.repas[i].nourriture + '</td></tr>');
+                            $('#repas tbody').append('<tr><td>' + data.backend_id + '</td><td>' + data.repas[i].boisson + '</td><td>' + data.repas[i].nourriture + '</td></tr>');
                         }
                     });
                 });
@@ -40,7 +39,7 @@
     <body>
         <h1>Suggestions de repas !</h1>
         <p>
-            Vous êtes servi par <code><?php echo $_SERVER['SERVER_NAME']; ?></code>
+            Vous êtes servi par le frontend <code><?php echo gethostname(); ?></code>.
         </p>
         <p>
             Cliquez ici pour une liste de repas : <a href="#" id="bouton">Bouton !</a>
@@ -49,7 +48,7 @@
         <table class="table" id="repas">
             <thead>
                 <tr>
-                    <th>Numéro</th>
+                    <th>Backend</th>
                     <th>Boisson</th>
                     <th>Nourriture</th>
                 </tr>
