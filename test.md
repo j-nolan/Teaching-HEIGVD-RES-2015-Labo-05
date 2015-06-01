@@ -57,6 +57,21 @@ Pour ce faire le controleur exécute trois tâches :
 2. Écoute les messages sur le canal broadcast. Si un nouveau serveur est détecté met à jour la liste des serveurs concernée. Si le serveur existe déjà, actualisé le champ "lastSeen" utilisé pour le timeout du point 1. 
 3. Regarde, toutes les 500ms, si la liste utilisée par le serveur Apache doit être mise à jour. Si c'est le cas, le controleur réécrit le fichier httpd-vhosts.conf en utilisant les templates de début, milieu et de fin mit à disposition en y insérant la liste des serveurs à jour. Une fois la liste à jour, le controleur redémarre le serveur Apache.
 
+# Mécanismes de test
+
+Afin de tester si les mécanisme de proxy et load-balancing étaient fonctionnels, nous avons intégré à l'affichage de la page html reçue l'id du container ayant traité la requête. Que ce soit un serveur frontend ou backend. 
+
+L'emplacement de ces ids permettent de différentier s'il s'agit d'un serveur frontend ou backend (cf images).
+
+Dans notre phase de test, nous avons établit une connexion à l'aide de deux navigateurs différents. Chaque navigateur symbolisant un client. Puis nous avons effectué une série de requêtes vers les serveurs backends à l'aide du lien 'bouton!'. Nous avons observé que 3 serveurs backends différents on été sollicité.
+
+Nous avons ensuite réactualisé la page plusieurs fois afin de nous assurer que l'id du serveur frontend ne changeait pas. Comportement qui a été constaté. 
+
+Notre implémentation semble donc correcte et fonctionnelle.
+ 
+
+
+
 
 
 
