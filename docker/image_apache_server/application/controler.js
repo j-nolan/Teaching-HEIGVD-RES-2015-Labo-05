@@ -78,11 +78,6 @@ var newFrontEnd = {
 tableauFront.push(newFrontend);
 
 var response = dgram.createSocket('udp4');
-//
-//decouvre.bind(protocol.PROTOCOL_PORT, function() {
-//  console.log("Joining multicast group");
-//  decouvre.addMembership(protocol.PROTOCOL_MULTICAST_ADDRESS);
-//});
 
 // le contrôleur écoute sur le port en attente des messages des nodes
 response.on('message', function(msg, source) {
