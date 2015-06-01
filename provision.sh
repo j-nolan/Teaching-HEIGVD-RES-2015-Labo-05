@@ -12,12 +12,6 @@ sudo apt-get update
 echo "************************  install git  ************************"
 sudo apt-get install git -y
 
-# Install JDK 8 (uncomment if needed)
-#echo "************************  install oracle jdk 8 & maven  ************************"
-#echo oracle-java8-installer shared/accepted-oracle-license-v1-1 select true | sudo /usr/bin/debconf-set-selections
-#sudo apt-get install oracle-java8-set-default -y
-#sudo apt-get install maven -y
-
 # Install node.js (also remove the "Amateur Packet Radio Node Program" conflicting package)
 echo "************************  install node.js  ************************"
 sudo apt-get --purge remove node  -y
@@ -42,6 +36,12 @@ sudo docker build -t express-backend -f /vagrant/docker/image_backend/Dockerfile
 echo "***********************  Build Load Balancer**********************"
 sudo docker build -t loadbalancer-proxy -f /vagrant/ApacheServer/Dockerfile /vagrant/ApacheServer/
 
-# Launch the Docker UI
-echo "***********************  Launch Docker UI  ***********************"
-sudo docker run -d -p 9000:9000 --privileged -v /var/run/docker.sock:/var/run/docker.sock dockerui/dockerui
+# Launch the Docker UI when machine starts
+echo "********************  Launch Dockers on start *****************"
+sudo sh -c 'sed "/exit/d" /etc/rc.local > /etc/rc.local' # supprimer la ligne "exit 0" du fichier rc.local
+sudo sh -c '
+echo "sudo docker run -d -p 9000:9000 --privileged -v /var/run/docker.sock:/var/run/docker.sock dockerui/dockerui" >> /etc/rc.local
+echo "sudo docker run -d -p 80:80 loadbalancer-proxy" >> /etc/rc.local
+echo "sudo docker run -d php-frontend" >> /etc/rc.local
+echo "sudo docker run -d  express-backend" >> /etc/rc.local
+echo "exit 0" >> /etc/rc.local'
