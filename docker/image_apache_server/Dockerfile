@@ -9,8 +9,8 @@ FROM httpd:2.4
 #
 
 # copie des deux fichiers de config apache
-COPY ./conf/httpd.conf /usr/local/apache2/conf/httpd.conf
-COPY ./conf/httpd-vhosts.conf /usr/local/apache2/conf/extra/httpd-vhosts.conf
+COPY ./config/httpd.conf /usr/local/apache2/conf/httpd.conf
+COPY ./config/httpd-vhosts.conf /usr/local/apache2/conf/extra/httpd-vhosts.conf
 
 # copie des repertoires contenant le decouvreur et les templates
 COPY application/ /app/
