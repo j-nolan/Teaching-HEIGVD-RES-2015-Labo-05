@@ -13,7 +13,11 @@ Concevoir un script Node.js qui écoute les paquets UDP envoyés sur le réseau 
 
 # ATTENTION, REMARQUE
 
-Nous avons pu constater que lorsque l'on push notre projet sur github, la syntaxe des retours lignes est parfois changée. Assurez-vous que les retours lignes soient bien des retours lignes UNIX sans quoi l'exécution du projet peut être compromise ! Merci.
+Nous avons pu constater que lorsque l'on push notre projet sur github, la syntaxe des retours lignes est parfois changée. Assurez-vous que les retours lignes soient bien des retours lignes UNIX sans quoi l'exécution du projet peut être compromise ! Les fichiers suivants sont critiques :
+* `/vagrant/docker/image_apache_server/application/startDiscovery.sh`
+* `/vagrant/docker/image_frontend/startContainer.sh`
+
+Merci.
 
 # Frontends, backends
 
