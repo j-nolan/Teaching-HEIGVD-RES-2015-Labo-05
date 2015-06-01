@@ -108,7 +108,7 @@ Voici la manipulation effectuée pour avoir notre projet fonctionnel :
 2. Redémarrer la machine pour que tous les containers de base se lancent à l'aide de la commande `vagrant reload` 
 
  ![Test avec navigateur chrome](https://github.com/j-nolan/Teaching-HEIGVD-RES-2015-Labo-05/blob/master/RES-Chrome.png)
- ![Test avec navigateur chrome](https://github.com/j-nolan/Teaching-HEIGVD-RES-2015-Labo-05/blob/master/RES-Firefox.png) 
+ ![Test avec navigateur Firefox](https://github.com/j-nolan/Teaching-HEIGVD-RES-2015-Labo-05/blob/master/RES-Firefox.png) 
 
 
 
