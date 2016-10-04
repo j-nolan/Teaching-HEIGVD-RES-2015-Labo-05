@@ -1,6 +1,6 @@
 # RES: Web Infrastructure Lab
 
-*Mots-clé : * Vagrant, Docker, Express.js, Apache, reverse proxy, load balancing
+**Mots-clé :** Vagrant, Docker, Express.js, Apache, reverse proxy, load balancing
 
 ## Auteurs et rôles
 * **David Villa**
