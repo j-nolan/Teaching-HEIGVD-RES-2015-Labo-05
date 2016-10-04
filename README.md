@@ -1,5 +1,6 @@
-
 # RES: Web Infrastructure Lab
+
+*Technologies : * Vagrant, Docker, Express.js, Apache
 
 ## Auteurs et rôles
 * **David Villa**
