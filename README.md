@@ -11,14 +11,6 @@
 * **Michelle Meguep**
 Concevoir un script Node.js qui écoute les paquets UDP envoyés sur le réseau par les containers de type Frontend et Backend, afin de connaître les containers actuellement disponibles. Ce script met à jour la configuration du serveur Apache2 afin qu'il tienne compte de ces containers dans la répartition des charges.
 
-# ATTENTION, REMARQUE
-
-Nous avons pu constater que lorsque l'on push notre projet sur github, la syntaxe des retours lignes est parfois changée. Assurez-vous que les retours lignes soient bien des retours lignes UNIX sans quoi l'exécution du projet peut être compromise ! Les fichiers suivants sont critiques :
-* `/vagrant/docker/image_apache_server/application/startDiscovery.sh`
-* `/vagrant/docker/image_frontend/startContainer.sh`
-
-Merci.
-
 # Frontends, backends
 
 ## Introduction
@@ -117,8 +109,9 @@ Voici la manipulation effectuée pour avoir notre projet fonctionnel :
  ![Test avec navigateur chrome](https://github.com/j-nolan/Teaching-HEIGVD-RES-2015-Labo-05/blob/master/RES-Chrome.png)
  ![Test avec navigateur Firefox](https://github.com/j-nolan/Teaching-HEIGVD-RES-2015-Labo-05/blob/master/RES-Firefox.png) 
 
-
-
-
+# Bugs
+Nous avons pu constater que lorsque l'on push notre projet sur github, la syntaxe des retours lignes est parfois changée. Assurez-vous que les retours lignes soient bien des retours lignes UNIX sans quoi l'exécution du projet peut être compromise ! Les fichiers suivants sont critiques :
+* `/vagrant/docker/image_apache_server/application/startDiscovery.sh`
+* `/vagrant/docker/image_frontend/startContainer.sh`
 
 
